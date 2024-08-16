@@ -30,7 +30,7 @@ class _HomePageState extends StateX<HomePage> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          title: Text(widget.title ?? 'Builtin-InheritedWidget Demo.'),
+          title: Text(widget.title ?? 'Built-in InheritedWidget Demo.'),
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(
               bottom: Radius.circular(30),
@@ -51,8 +51,6 @@ class _HomePageState extends StateX<HomePage> {
         ),
         persistentFooterButtons: [
           OverflowBar(
-            // spacing: 5,
-            // overflowAlignment: OverflowBarAlignment.center,
             children: [
               TextButton(
                 onPressed: () => con.newDogs(),

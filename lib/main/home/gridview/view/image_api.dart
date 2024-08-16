@@ -17,7 +17,7 @@ class ImageAPIStateX<T extends StatefulWidget> extends StateX<T>
     required this.uri,
     this.message,
     super.controller,
-  }) : super(useInherited: true, runAsync: true) {
+  }) : super(runAsync: true) {
     //
     final id = add(ImageAPIController());
     // Retrieve the Controller by its unique id.
@@ -36,7 +36,7 @@ class ImageAPIStateX<T extends StatefulWidget> extends StateX<T>
 
   /// Supply a widget to the built-in FutureBuilder.
   @override
-  Widget buildF(context) {
+  Widget builder(context) {
     controller?.dependOnInheritedWidget(context);
     return GestureDetector(
       onTap: _con.onTap,
@@ -45,6 +45,7 @@ class ImageAPIStateX<T extends StatefulWidget> extends StateX<T>
     );
   }
 
+  /// Place a breakpoint on this build() function and see how things work.
   @override
   // ignore: unnecessary_overrides
   Widget build(BuildContext context) => super.build(context);

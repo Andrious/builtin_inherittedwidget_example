@@ -17,24 +17,13 @@ class HomeController extends StateXController {
   HomeController._(this.crossCount);
   static HomeController? _this;
 
+  /// Number of columns in the Grid
   final int crossCount;
 
   /// The List of Widgets
   List<Widget> get children => _randomGrid();
 
-  //
-  List<Widget> _speciesGrid({int? rows = 4}) {
-    //
-    rows ??= crossCount;
-
-    final List<Widget> images = [];
-    final number = rows * crossCount;
-    for (var cnt = 1; cnt <= number; cnt++) {
-      images.add(speciesList(0));
-    }
-    return images;
-  }
-
+  /// Randomly arranged the photos of four animals
   List<Widget> _randomGrid() {
     // Default number is assigned if one is not provided.
     final List<Widget> images = [];

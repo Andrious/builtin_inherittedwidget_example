@@ -31,7 +31,7 @@ class ImageAPIController extends StateXController {
   /// Change all three images
   void onDoubleTap() {
     final controller = state?.controller;
-    if (controller is InheritController) {
+    if (controller != null && controller is InheritController) {
       controller.newAnimals();
     }
   }
