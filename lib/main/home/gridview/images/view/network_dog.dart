@@ -10,15 +10,15 @@ import '/src/controller.dart';
 import '/src/view.dart';
 
 ///
-class RandomDog extends StatefulWidget {
+class NetworkDog extends StatefulWidget {
   ///
-  const RandomDog({super.key});
+  const NetworkDog({super.key});
   @override
-  State<StatefulWidget> createState() => _RandomDogState();
+  State<StatefulWidget> createState() => _NetworkDogState();
 }
 
-class _RandomDogState extends ImageAPIStateX<RandomDog> {
-  _RandomDogState()
+class _NetworkDogState extends ImageAPIStateX<NetworkDog> {
+  _NetworkDogState()
       : super(
           controller: DogController(),
           uri: Uri(

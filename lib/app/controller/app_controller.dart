@@ -22,6 +22,9 @@ class ExampleAppController extends AppController {
   /// Error right at the start
   bool errorAtStartup = false;
 
+  /// Dark Mode
+  bool get inDarkMode => _themeController.isDarkMode;
+
   /// Initialize
   @override
   void initState() {
@@ -34,35 +37,42 @@ class ExampleAppController extends AppController {
   /// Record the current theme
   late ThemeData _lightTheme;
 
-  /// Assign to the 'leading' widget on the interface.
-  void leading() => changeUI();
-
-  /// Switch to the other User Interface.
-  void changeUI() {
-    //
-    Navigator.popUntil(App.context!, ModalRoute.withName('/'));
-
-    // This has to be called first.
-    App.changeUI(App.useMaterial ? 'Cupertino' : 'Material');
-
-    bool switchUI;
-    if (App.useMaterial) {
-      if (UniversalPlatform.isAndroid) {
-        switchUI = false;
-      } else {
-        switchUI = true;
-      }
-    } else {
-      if (UniversalPlatform.isAndroid) {
-        switchUI = true;
-      } else {
-        switchUI = false;
-      }
+  /// Toggle the use of the built-in InheritedWidget
+  void useInheritedWidget() {
+    final useInherited = InheritController.useInherited;
+    InheritController.useInherited = !useInherited;
+    Prefs.setBool('inheritedWidget', InheritController.useInherited);
+    // Home Page must be called to set this one up
+    if (!InheritController.useInherited && !callHome) {
+      callHomeWidget();
     }
-    Prefs.setBool('switchUI', switchUI);
+    HomeController().setState(() {});
   }
 
   ///
+  bool get useInherited => InheritController.useInherited;
+
+  /// Toggle the recreation or not of the 'Inherited' State objects
+  void recreateStateObjects() {
+    final recreate = InheritController.newKey;
+    InheritController.newKey = !recreate;
+    Prefs.setBool('recreate', InheritController.newKey);
+  }
+
+  ///
+  bool get recreateStates => InheritController.newKey;
+
+  /// Toggle the rebuilding of the Home Page State object
+  void callHomeWidget() {
+    final callHome = InheritController.callHome;
+    InheritController.callHome = !callHome;
+    Prefs.setBool('callHome', InheritController.callHome);
+  }
+
+  ///
+  bool get callHome => InheritController.callHome;
+
+  /// Change the dark mode theme
   void darkMode() {
     _themeController.isDarkMode = !_themeController.isDarkMode;
     final darkMode = _themeController.setIfDarkMode() ?? _lightTheme;
@@ -77,64 +87,36 @@ class ExampleAppController extends AppController {
         applicationVersion: 'version: ${App.version} build: ${App.buildNumber}',
       );
 
-  // /// Retrieve the app's own controller.
-  // TemplateController get appController =>
-  //     _appController ??= App.vw!.con as TemplateController;
-  // TemplateController? _appController;
-
-  /// Supply the app's popupmenu
-  /// an immutable menu
-  Widget get menu => AppPopupMenu(
-        key: const Key('appMenuButton'),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        position: PopupMenuPosition.under,
-        menuEntries: [
-          PopupMenuItem(
-            key: const Key('interfaceMenuItem'),
-            value: 'interface',
-            child: Text(
-                '${'Interface:'.tr} ${App.useMaterial ? 'Material' : 'Cupertino'}'),
-          ),
-          PopupMenuItem(
-            key: const Key('localeMenuItem'),
-            value: 'locale',
-            child: Text('${'Locale:'.tr} ${App.locale!.toLanguageTag()}'),
-          ),
-          if (App.useMaterial)
-            PopupMenuItem(
-              key: const Key('colorMenuItem'),
-              value: 'color',
-              child: L10n.t('Colour Theme'),
-            ),
-          PopupMenuItem(
-            key: const Key('aboutMenuItem'),
-            value: 'about',
-            child: L10n.t('About'),
-          ),
-        ],
-        inSelected: (String value) async {
-          switch (value) {
-            case 'interface':
-              changeUI();
-              break;
-            case 'about':
-              aboutApp();
-              break;
-            default:
-          }
-        },
-      );
-
   /// **************  Life cycle events ****************
 
   /// Called to complete any asynchronous operations.
+  /// Initialize any 'time-consuming' operations at the beginning.
+  /// Initialize asynchronous items essential to the applications.
+  /// Called by a FutureBuilder() widget.
   @override
   Future<bool> initAsync() async {
-    final init = await super.initAsync();
+    var init = await super.initAsync();
     //
-    if (ExampleAppController().allowErrors) {
-      throw Exception('error thrown in template_controller in $state');
+    if (allowErrors) {
+      throw Exception('error thrown in controller in $state');
     }
+
+    // The StatefulWidget
+    final widget = rootState!.widget as ExampleApp;
+
+    // Was a Splash Screen specified?
+    if (widget.splashScreen != null || widget.inSplashScreen != null) {
+      /// Simply wait for the Splash Screen to appear for a time at startup.
+      /// In production, this is where databases are opened, logins attempted, etc.
+      init = await Future<bool>.delayed(const Duration(seconds: 10), () {
+        return true;
+      });
+    }
+
+    InheritController.useInherited = Prefs.getBool('inheritedWidget', true);
+    InheritController.callHome = Prefs.getBool('callHome', false);
+    InheritController.newKey = Prefs.getBool('recreate', false);
+
     return init;
   }
 
@@ -164,9 +146,6 @@ class ExampleAppController extends AppController {
   /// PERFORM ANY TIME-CRITICAL OPERATION IN deactivate() INSTEAD!
   @override
   void dispose() {
-    // Clear itself? Would that be advisable?
-    _this = null;
-
     if (inDebugMode) {
       //ignore: avoid_print
       print('############ now disposed.');

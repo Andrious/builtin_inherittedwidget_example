@@ -12,10 +12,8 @@ import '/src/view.dart';
 ///
 class InheritBird extends StatefulWidget {
   ///
-  const InheritBird({
-    super.key,
-    required this.child,
-  });
+  InheritBird({required this.child})
+      : super(key: InheritController.newKey ? UniqueKey() : null);
 
   ///
   final Widget child;
@@ -25,8 +23,12 @@ class InheritBird extends StatefulWidget {
 }
 
 class _InheritBirdState extends StateX<InheritBird> {
-  _InheritBirdState() : super(controller: BirdController(), useInherited: true);
+  _InheritBirdState()
+      : super(
+          controller: BirdController(),
+          useInherited: InheritController.useInherited,
+        );
 
   @override
-  Widget buildIn(context) => widget.child;
+  Widget builder(context) => widget.child;
 }

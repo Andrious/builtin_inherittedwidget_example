@@ -17,11 +17,14 @@ class ImageAPIStateX<T extends StatefulWidget> extends StateX<T>
     required this.uri,
     this.message,
     super.controller,
+    // Always run the initAsync() function
   }) : super(runAsync: true) {
     //
     final id = add(ImageAPIController());
-    // Retrieve the Controller by its unique id.
+    // Retrieve the stored Controller by its unique id.
     _con = controllerById(id) as ImageAPIController;
+    // Retrieve the stored Controller by type if you want
+    _con = controllerByType<ImageAPIController>();
   }
 
   ///
@@ -32,16 +35,16 @@ class ImageAPIStateX<T extends StatefulWidget> extends StateX<T>
   @override
   final String? message;
 
-  late ImageAPIController _con;
+  ImageAPIController? _con;
 
   /// Supply a widget to the built-in FutureBuilder.
   @override
   Widget builder(context) {
     controller?.dependOnInheritedWidget(context);
     return GestureDetector(
-      onTap: _con.onTap,
-      onDoubleTap: _con.onDoubleTap,
-      child: Card(child: _con.image ?? const SizedBox.shrink()),
+      onTap: _con?.onTap,
+      onDoubleTap: _con?.onDoubleTap,
+      child: Card(child: _con?.image ?? const SizedBox.shrink()),
     );
   }
 
@@ -49,11 +52,6 @@ class ImageAPIStateX<T extends StatefulWidget> extends StateX<T>
   @override
   // ignore: unnecessary_overrides
   Widget build(BuildContext context) => super.build(context);
-
-  /// Supply an 'error handler' routine if something goes wrong
-  /// in the corresponding initAsync() routine.
-  @override
-  bool onAsyncError(FlutterErrorDetails details) => false;
 }
 
 ///

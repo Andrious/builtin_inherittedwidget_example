@@ -19,7 +19,8 @@ dependencies:
   flutter:
     sdk: flutter
 
-  fluttery_framework: ^4.0.0
+  fluttery_framework: #^4.0.0
+    path: ..\..\packages\fluttery_framework
 
   http: ^1.0.0
 
@@ -36,3 +37,7 @@ flutter:
 
   # so that you can use the icons in the material Icons class.
   uses-material-design: true
+
+  # To add assets to your application, add an assets section, like this:
+  assets:
+    - assets/images/

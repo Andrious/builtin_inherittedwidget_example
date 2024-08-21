@@ -36,6 +36,7 @@ class _HomePageState extends StateX<HomePage> {
               bottom: Radius.circular(30),
             ),
           ),
+          actions: [AppMenu()],
         ),
         body: InheritBird(
           child: InheritCat(

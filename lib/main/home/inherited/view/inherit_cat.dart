@@ -12,7 +12,8 @@ import '/src/view.dart';
 /// This StatefulWidget stores an InheritedWidget
 class InheritCat extends StatefulWidget {
   ///
-  const InheritCat({super.key, required this.child});
+  InheritCat({required this.child})
+      : super(key: InheritController.newKey ? UniqueKey() : null);
 
   ///
   final Widget child;
@@ -22,8 +23,12 @@ class InheritCat extends StatefulWidget {
 }
 
 class _InheritCatState extends StateX<InheritCat> {
-  _InheritCatState() : super(controller: CatController(), useInherited: true);
+  _InheritCatState()
+      : super(
+          controller: CatController(),
+          useInherited: InheritController.useInherited,
+        );
 
   @override
-  Widget buildIn(context) => widget.child;
+  Widget builder(context) => widget.child;
 }

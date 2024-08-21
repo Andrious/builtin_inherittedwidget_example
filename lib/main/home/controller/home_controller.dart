@@ -42,15 +42,14 @@ class HomeController extends StateXController {
     while (cnt < number) {
       // Shuffle the elements
       animals.shuffle();
-      final index = animals[0];
-      switch (index) {
+      switch (animals[0]) {
         case 1:
           if (dog == limit) {
             // try again.
             continue;
           } else {
             dog++;
-            images.add(speciesList(index));
+            images.add(const NetworkDog());
           }
           break;
         case 2:
@@ -59,7 +58,7 @@ class HomeController extends StateXController {
             continue;
           } else {
             cat++;
-            images.add(speciesList(index));
+            images.add(const NetworkCat());
           }
           break;
         case 3:
@@ -68,7 +67,7 @@ class HomeController extends StateXController {
             continue;
           } else {
             fox++;
-            images.add(speciesList(index));
+            images.add(const NetworkFox());
           }
           break;
         case 4:
@@ -77,7 +76,7 @@ class HomeController extends StateXController {
             continue;
           } else {
             bird++;
-            images.add(speciesList(index));
+            images.add(const NetworkBird());
           }
           break;
       }
@@ -97,24 +96,4 @@ class HomeController extends StateXController {
 
   ///
   void newFoxes() => FoxController().newAnimals();
-
-  /// A certain index, a certain animal
-  Widget speciesList(int index) {
-    Widget widget;
-    switch (index) {
-      case 1:
-        widget = const RandomDog();
-        break;
-      case 2:
-        widget = const RandomCat();
-        break;
-      case 3:
-        widget = const RandomFox();
-        break;
-      default:
-        widget = const RandomBird();
-        break;
-    }
-    return widget;
-  }
 }

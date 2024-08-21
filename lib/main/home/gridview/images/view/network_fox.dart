@@ -10,15 +10,15 @@ import '/src/controller.dart';
 import '/src/view.dart';
 
 ///
-class RandomFox extends StatefulWidget {
+class NetworkFox extends StatefulWidget {
   ///
-  const RandomFox({super.key});
+  const NetworkFox({super.key});
   @override
-  State<StatefulWidget> createState() => _RandomFoxState();
+  State<StatefulWidget> createState() => _NetworkFoxState();
 }
 
-class _RandomFoxState extends ImageAPIStateX<RandomFox> {
-  _RandomFoxState()
+class _NetworkFoxState extends ImageAPIStateX<NetworkFox> {
+  _NetworkFoxState()
       : super(
           controller: FoxController(),
           uri: Uri(

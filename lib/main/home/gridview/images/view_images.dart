@@ -5,10 +5,10 @@
 ///  All that makes up the interface for the app's displayed images.
 ///
 
-export 'view/random_bird.dart';
+export 'view/network_bird.dart';
 
-export 'view/random_cat.dart';
+export 'view/network_cat.dart';
 
-export 'view/random_dog.dart';
+export 'view/network_dog.dart';
 
-export 'view/random_fox.dart';
+export 'view/network_fox.dart';

@@ -26,26 +26,49 @@ class AppMenu extends AppPopupMenu {
   @override
   List<PopupMenuEntry<String>>? onMenuEntries() => [
         PopupMenuItem(
-          key: const Key('interfaceMenuItem'),
-          value: 'interface',
-          child: Text(
-              '${'Interface:'.tr} ${App.useMaterial ? 'Material' : 'Cupertino'}'),
+          key: const Key('inherited'),
+          value: 'inherited',
+          child: ListTile(
+            leading:
+                _con.useInherited ? const Icon(Icons.circle) : const Text(' '),
+            title: Text('Use InheritedWidget'.tr),
+          ),
+        ),
+        PopupMenuItem(
+          key: const Key('home'),
+          value: 'home',
+          child: ListTile(
+            leading: _con.callHome ? const Icon(Icons.circle) : const Text(' '),
+            title: Text('Call Home Page'.tr),
+          ),
+        ),
+        PopupMenuItem(
+          key: const Key('newKey'),
+          value: 'newKey',
+          child: ListTile(
+            leading: _con.recreateStates
+                ? const Icon(Icons.circle)
+                : const Text(' '),
+            title: Text('Recreate State objects'.tr),
+          ),
         ),
         if (App.useMaterial)
           PopupMenuItem(
             key: const Key('darkModeItem'),
             value: 'darkMode',
-            child: Text('Dark Mode'.tr),
+            child: ListTile(
+              leading:
+                  _con.inDarkMode ? const Icon(Icons.circle) : const Text(' '),
+              title: Text('Dark Mode'.tr),
+            ),
           ),
-        PopupMenuItem(
-          key: const Key('localeMenuItem'),
-          value: 'locale',
-          child: Text('${'Locale:'.tr} ${App.locale!.toLanguageTag()}'),
-        ),
         PopupMenuItem(
           key: const Key('aboutMenuItem'),
           value: 'about',
-          child: Text('About'.tr),
+          child: ListTile(
+            leading: const Text(' '),
+            title: Text('About'.tr),
+          ),
         ),
       ];
 
@@ -53,8 +76,14 @@ class AppMenu extends AppPopupMenu {
   @override
   Future<void> onSelected(String value) async {
     switch (value) {
-      case 'interface':
-        _con.changeUI();
+      case 'inherited':
+        _con.useInheritedWidget();
+        break;
+      case 'home':
+        _con.callHomeWidget();
+        break;
+      case 'newKey':
+        _con.recreateStateObjects();
         break;
       case 'darkMode':
         _con.darkMode();

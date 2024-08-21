@@ -91,7 +91,7 @@ obfuscate/
 
 # Android related
 google-services.json
-/android/
+#/android/
 # hide access tokens
 /android/gradle.properties
 !/android/app/build.gradle

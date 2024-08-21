@@ -16,5 +16,20 @@ class InheritController extends StateXController {
       firstState?.dependOnInheritedWidget(context) ?? false;
 
   /// Rebuild the InheritedWidget to also rebuild its dependencies.
-  void newAnimals() => firstState?.notifyClients();
+  void newAnimals() {
+    if (callHome) {
+      HomeController().setState(() {});
+    } else {
+      firstState?.notifyClients();
+    }
+  }
+
+  /// Rebuilt the 'Home Page' State object
+  static bool callHome = false;
+
+  /// Have the StateX objects use their built-in InheritedWidgets
+  static bool useInherited = false;
+
+  /// Recreate the State objects by passing new keys.
+  static bool newKey = false;
 }

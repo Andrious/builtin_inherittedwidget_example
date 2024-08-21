@@ -12,7 +12,8 @@ import '/src/view.dart';
 /// This StatefulWidget stores an InheritedWidget
 class InheritFox extends StatefulWidget {
   ///
-  const InheritFox({super.key, required this.child});
+  InheritFox({required this.child})
+      : super(key: InheritController.newKey ? UniqueKey() : null);
 
   ///
   final Widget child;
@@ -22,8 +23,12 @@ class InheritFox extends StatefulWidget {
 }
 
 class _InheritFoxState extends StateX<InheritFox> {
-  _InheritFoxState() : super(controller: FoxController(), useInherited: true);
+  _InheritFoxState()
+      : super(
+          controller: FoxController(),
+          useInherited: InheritController.useInherited,
+        );
 
   @override
-  Widget buildIn(context) => widget.child;
+  Widget builder(context) => widget.child;
 }

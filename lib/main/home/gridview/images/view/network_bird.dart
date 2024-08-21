@@ -10,15 +10,15 @@ import '/src/controller.dart';
 import '/src/view.dart';
 
 ///
-class RandomBird extends StatefulWidget {
+class NetworkBird extends StatefulWidget {
   ///
-  const RandomBird({super.key});
+  const NetworkBird({super.key});
   @override
-  State<StatefulWidget> createState() => _RandomBirdState();
+  State<StatefulWidget> createState() => _NetworkBirdState();
 }
 
-class _RandomBirdState extends ImageAPIStateX<RandomBird> {
-  _RandomBirdState()
+class _NetworkBirdState extends ImageAPIStateX<NetworkBird> {
+  _NetworkBirdState()
       : super(
           controller: BirdController(),
           message: 'message',

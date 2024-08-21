@@ -9,15 +9,15 @@ import '/src/controller.dart';
 import '/src/view.dart';
 
 ///
-class RandomCat extends StatefulWidget {
+class NetworkCat extends StatefulWidget {
   ///
-  const RandomCat({super.key});
+  const NetworkCat({super.key});
   @override
-  State<StatefulWidget> createState() => _RandomCatState();
+  State<StatefulWidget> createState() => _NetworkCatState();
 }
 
-class _RandomCatState extends ImageAPIStateX<RandomCat> {
-  _RandomCatState()
+class _NetworkCatState extends ImageAPIStateX<NetworkCat> {
+  _NetworkCatState()
       : super(
           controller: CatController(),
           message: 'message',
@@ -27,4 +27,8 @@ class _RandomCatState extends ImageAPIStateX<RandomCat> {
             path: 'api/v2/random/animal/cat',
           ),
         );
+
+  /// Supply a 'splash screen' while the FutureBuilder is processing.
+  @override
+  Widget? onSplashScreen(BuildContext context) => const SplashScreen();
 }
