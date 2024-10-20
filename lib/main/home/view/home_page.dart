@@ -22,36 +22,44 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends StateX<HomePage> {
-  _HomePageState() : super(controller: HomeController()) {
+  _HomePageState()
+      : super(
+          controller: HomeController(),
+        ) {
     con = controller as HomeController;
   }
   late HomeController con;
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-          title: Text(widget.title ?? 'Built-in InheritedWidget Demo.'),
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(
-              bottom: Radius.circular(30),
-            ),
+  Widget build(BuildContext context) {
+    var appCon = ExampleAppController();
+    appCon = con.rootState!.rootCon
+        as ExampleAppController; // Same object by the way
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title ?? 'Built-in InheritedWidget Demo.'),
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            bottom: Radius.circular(30),
           ),
-          actions: [AppMenu()],
         ),
-        body: InheritBird(
-          child: InheritCat(
-            child: InheritDog(
-              child: InheritFox(
-                child: GridView.count(
-                  crossAxisCount: HomeController().crossCount,
-                  children: con.children,
-                ),
+        actions: [AppMenu()],
+      ),
+      body: InheritBird(
+        child: InheritCat(
+          child: InheritDog(
+            child: InheritFox(
+              child: GridView.count(
+                crossAxisCount: 3,
+                children: con.children,
               ),
             ),
           ),
         ),
-        persistentFooterButtons: [
-          OverflowBar(
+      ),
+      persistentFooterButtons: [
+        Center(
+          child: OverflowBar(
             children: [
               TextButton(
                 onPressed: () => con.newDogs(),
@@ -71,6 +79,8 @@ class _HomePageState extends StateX<HomePage> {
               ),
             ],
           ),
-        ],
-      );
+        ),
+      ],
+    );
+  }
 }

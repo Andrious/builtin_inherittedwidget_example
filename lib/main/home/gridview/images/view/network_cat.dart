@@ -31,4 +31,17 @@ class _NetworkCatState extends ImageAPIStateX<NetworkCat> {
   /// Supply a 'splash screen' while the FutureBuilder is processing.
   @override
   Widget? onSplashScreen(BuildContext context) => const SplashScreen();
+
+  /// Place a breakpoint on this build() function and see how things work.
+  @override
+  // ignore: unnecessary_overrides
+  Widget build(BuildContext context) => super.build(context);
+
+  @override
+  // ignore: unnecessary_overrides
+  Widget buildF(BuildContext context) => super.buildF(context);
+
+  @override
+  // ignore: unnecessary_overrides
+  Widget builder(context) => super.builder(context);
 }

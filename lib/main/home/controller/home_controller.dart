@@ -12,19 +12,19 @@ import '/src/view.dart';
 ///
 class HomeController extends StateXController {
   ///
-  factory HomeController({int? crossCount}) =>
-      _this ??= HomeController._(crossCount ?? 3);
-  HomeController._(this.crossCount);
+  factory HomeController() =>
+      _this ??= HomeController._();
+  HomeController._();
   static HomeController? _this;
-
-  /// Number of columns in the Grid
-  final int crossCount;
 
   /// The List of Widgets
   List<Widget> get children => _randomGrid();
 
   /// Randomly arranged the photos of four animals
-  List<Widget> _randomGrid() {
+  List<Widget> _randomGrid([int? count]) {
+
+    final crossCount = count ?? 3;
+
     // Default number is assigned if one is not provided.
     final List<Widget> images = [];
     final animals = [1, 2, 3, 4];

@@ -20,12 +20,12 @@ class NetworkDog extends StatefulWidget {
 class _NetworkDogState extends ImageAPIStateX<NetworkDog> {
   _NetworkDogState()
       : super(
-          controller: DogController(),
-          uri: Uri(
-            scheme: 'https',
-            host: 'dog.ceo',
-            path: 'api/breeds/image/random/1',
-          ),
-          message: 'message',
-        );
+    controller: DogController(),
+    uri: Uri(
+      scheme: 'https',
+      host: 'dog.ceo',
+      path: 'api/breeds/image/random/1',
+    ),
+    message: 'message',
+  );
 }

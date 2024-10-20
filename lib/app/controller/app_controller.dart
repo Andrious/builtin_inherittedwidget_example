@@ -16,6 +16,10 @@ class ExampleAppController extends AppController {
 
   final ThemeController _themeController;
 
+  /// Run a StateX object's initAsync()
+  /// Referenced in the StateX object's runInitAsync() function
+  bool runInitAsync = true;
+
   /// Store the boolean allowing for errors or not.
   bool allowErrors = false;
 
@@ -37,47 +41,37 @@ class ExampleAppController extends AppController {
   /// Record the current theme
   late ThemeData _lightTheme;
 
-  /// Toggle the use of the built-in InheritedWidget
-  void useInheritedWidget() {
-    final useInherited = InheritController.useInherited;
-    InheritController.useInherited = !useInherited;
-    Prefs.setBool('inheritedWidget', InheritController.useInherited);
-    // Home Page must be called to set this one up
-    if (!InheritController.useInherited && !callHome) {
-      callHomeWidget();
-    }
+  /// Run the Future again
+  bool get runFuture => _runFuture;
+  bool _runFuture = false;
+
+  /// Toggle the running of the State object's Future again and again
+  void runAsync() {
+    _runFuture = !_runFuture;
+    Prefs.setBool('runFuture', _runFuture);
     HomeController().setState(() {});
   }
 
-  ///
-  bool get useInherited => InheritController.useInherited;
+  /// Have the StateX objects use their built-in InheritedWidgets
+  bool get useInherited => _useInherited;
+  bool _useInherited = false;
 
-  /// Toggle the recreation or not of the 'Inherited' State objects
-  void recreateStateObjects() {
-    final recreate = InheritController.newKey;
-    InheritController.newKey = !recreate;
-    Prefs.setBool('recreate', InheritController.newKey);
+  /// Toggle the use of the built-in InheritedWidget
+  void useInheritedWidget() {
+    _useInherited = !_useInherited;
+    Prefs.setBool('inheritedWidget', _useInherited);
+    HomeController().setState(() {});
   }
-
-  ///
-  bool get recreateStates => InheritController.newKey;
-
-  /// Toggle the rebuilding of the Home Page State object
-  void callHomeWidget() {
-    final callHome = InheritController.callHome;
-    InheritController.callHome = !callHome;
-    Prefs.setBool('callHome', InheritController.callHome);
-  }
-
-  ///
-  bool get callHome => InheritController.callHome;
 
   /// Change the dark mode theme
   void darkMode() {
     _themeController.isDarkMode = !_themeController.isDarkMode;
     final darkMode = _themeController.setIfDarkMode() ?? _lightTheme;
     App.themeData = darkMode;
+    // Rebuild the whole app
     App.setState(() {});
+    // Don't cause the images to change
+    runInitAsync = false;
   }
 
   ///
@@ -95,6 +89,7 @@ class ExampleAppController extends AppController {
   /// Called by a FutureBuilder() widget.
   @override
   Future<bool> initAsync() async {
+    //
     var init = await super.initAsync();
     //
     if (allowErrors) {
@@ -113,10 +108,8 @@ class ExampleAppController extends AppController {
       });
     }
 
-    InheritController.useInherited = Prefs.getBool('inheritedWidget', true);
-    InheritController.callHome = Prefs.getBool('callHome', false);
-    InheritController.newKey = Prefs.getBool('recreate', false);
-
+    _runFuture = Prefs.getBool('runFuture', true);
+    _useInherited = Prefs.getBool('inheritedWidget', true);
     return init;
   }
 
@@ -156,7 +149,7 @@ class ExampleAppController extends AppController {
   /// The application is not currently visible to the user, not responding to
   /// user input, and running in the background.
   @override
-  void pausedLifecycleState() {
+  void pausedAppLifecycleState() {
     if (inDebugMode) {
       //ignore: avoid_print
       print('############ Event: pausedLifecycleState in $state');
@@ -165,29 +158,16 @@ class ExampleAppController extends AppController {
 
   /// Called when app returns from the background
   @override
-  void resumedLifecycleState() {
+  void resumedAppLifecycleState() {
     if (inDebugMode) {
       //ignore: avoid_print
       print('############ Event: resumedLifecycleState in $state');
     }
   }
 
-  /// If a State object is unexpectedly re-created
-  /// You have to 'update' the properties of the new StateX object using the
-  /// old StateX object because it's going to be disposed of.
-  @override
-  void updateNewStateX(oldState) {
-    /// When a State object destroyed and a new one is re-created!
-    /// This new StateX object may need to be updated with the old State object
-    if (inDebugMode) {
-      //ignore: avoid_print
-      print('############ Event: updateNewStateX in $state');
-    }
-  }
-
   /// The application is in an inactive state and is not receiving user input.
   @override
-  void inactiveLifecycleState() {
+  void inactiveAppLifecycleState() {
     if (inDebugMode) {
       //ignore: avoid_print
       print('############ Event: inactiveLifecycleState in $state');
@@ -197,7 +177,7 @@ class ExampleAppController extends AppController {
   /// Either be in the progress of attaching when the engine is first initializing
   /// or after the view being destroyed due to a Navigator pop.
   @override
-  void detachedLifecycleState() {
+  void detachedAppLifecycleState() {
     if (inDebugMode) {
       //ignore: avoid_print
       print('############ Event: detachedLifecycleState in $state');
@@ -244,17 +224,6 @@ class ExampleAppController extends AppController {
       print('############ Event: didPopRoute in $state');
     }
     return super.didPopRoute();
-  }
-
-  /// Called when the host tells the app to push a new route onto the
-  /// navigator.
-  @override
-  Future<bool> didPushRoute(String route) async {
-    if (inDebugMode) {
-      //ignore: avoid_print
-      print('############ Event: didPushRoute in $state');
-    }
-    return super.didPushRoute(route);
   }
 
   /// Called when the host tells the application to push a new

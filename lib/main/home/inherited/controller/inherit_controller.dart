@@ -7,6 +7,8 @@
 
 import '/src/controller.dart';
 
+import '/src/view.dart';
+
 ///
 class InheritController extends StateXController {
   /// Link this Controller's Widget to a specific InheritedWidget
@@ -17,19 +19,7 @@ class InheritController extends StateXController {
 
   /// Rebuild the InheritedWidget to also rebuild its dependencies.
   void newAnimals() {
-    if (callHome) {
-      HomeController().setState(() {});
-    } else {
       firstState?.notifyClients();
-    }
+      ExampleAppController().runInitAsync = true;
   }
-
-  /// Rebuilt the 'Home Page' State object
-  static bool callHome = false;
-
-  /// Have the StateX objects use their built-in InheritedWidgets
-  static bool useInherited = false;
-
-  /// Recreate the State objects by passing new keys.
-  static bool newKey = false;
 }

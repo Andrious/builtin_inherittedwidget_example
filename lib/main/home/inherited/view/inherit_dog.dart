@@ -12,8 +12,7 @@ import '/src/view.dart';
 /// This StatefulWidget stores an InheritedWidget
 class InheritDog extends StatefulWidget {
   ///
-  InheritDog({required this.child})
-      : super(key: InheritController.newKey ? UniqueKey() : null);
+  InheritDog({required this.child}) : super(key: UniqueKey());
 
   ///
   final Widget child;
@@ -26,7 +25,7 @@ class _InheritDogState extends StateX<InheritDog> {
   _InheritDogState()
       : super(
           controller: DogController(),
-          useInherited: InheritController.useInherited,
+          useInherited: ExampleAppController().useInherited,
         );
 
   @override

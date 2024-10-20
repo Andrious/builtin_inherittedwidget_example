@@ -5,7 +5,7 @@ description: "Built-in InheritedWidget Demo."
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
-version: 1.0.0
+version: 1.2.0
 
 environment:
   sdk: '>=3.0.0 <4.0.0'
@@ -19,15 +19,15 @@ dependencies:
   flutter:
     sdk: flutter
 
-  fluttery_framework: #^4.0.0
-    path: ..\..\packages\fluttery_framework
+  fluttery_framework: ^5.0.0
+#    path: ..\..\packages\fluttery_framework
 
   http: ^1.0.0
 
 dev_dependencies:
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices.
-  flutter_lints: ^3.0.0
+  flutter_lints: ^4.0.0
 
   flutter_test:
     sdk: flutter

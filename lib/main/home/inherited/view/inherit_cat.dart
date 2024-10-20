@@ -12,8 +12,7 @@ import '/src/view.dart';
 /// This StatefulWidget stores an InheritedWidget
 class InheritCat extends StatefulWidget {
   ///
-  InheritCat({required this.child})
-      : super(key: InheritController.newKey ? UniqueKey() : null);
+  InheritCat({required this.child}) : super(key: UniqueKey());
 
   ///
   final Widget child;
@@ -26,8 +25,17 @@ class _InheritCatState extends StateX<InheritCat> {
   _InheritCatState()
       : super(
           controller: CatController(),
-          useInherited: InheritController.useInherited,
+          useInherited: ExampleAppController().useInherited,
         );
+
+  /// Place a breakpoint on this build() function and see how things work.
+  @override
+  // ignore: unnecessary_overrides
+  Widget build(BuildContext context) => super.build(context);
+
+  @override
+  // ignore: unnecessary_overrides
+  Widget buildF(BuildContext context) => super.buildF(context);
 
   @override
   Widget builder(context) => widget.child;

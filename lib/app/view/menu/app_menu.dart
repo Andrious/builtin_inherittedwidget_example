@@ -26,30 +26,21 @@ class AppMenu extends AppPopupMenu {
   @override
   List<PopupMenuEntry<String>>? onMenuEntries() => [
         PopupMenuItem(
+          key: const Key('runAsync'),
+          value: 'runAsync',
+          child: ListTile(
+            leading:
+                _con.runFuture ? const Icon(Icons.circle) : const Text(' '),
+            title: Text('Always Run Future'.tr),
+          ),
+        ),
+        PopupMenuItem(
           key: const Key('inherited'),
           value: 'inherited',
           child: ListTile(
             leading:
                 _con.useInherited ? const Icon(Icons.circle) : const Text(' '),
             title: Text('Use InheritedWidget'.tr),
-          ),
-        ),
-        PopupMenuItem(
-          key: const Key('home'),
-          value: 'home',
-          child: ListTile(
-            leading: _con.callHome ? const Icon(Icons.circle) : const Text(' '),
-            title: Text('Call Home Page'.tr),
-          ),
-        ),
-        PopupMenuItem(
-          key: const Key('newKey'),
-          value: 'newKey',
-          child: ListTile(
-            leading: _con.recreateStates
-                ? const Icon(Icons.circle)
-                : const Text(' '),
-            title: Text('Recreate State objects'.tr),
           ),
         ),
         if (App.useMaterial)
@@ -62,6 +53,7 @@ class AppMenu extends AppPopupMenu {
               title: Text('Dark Mode'.tr),
             ),
           ),
+        const PopupMenuDivider(),
         PopupMenuItem(
           key: const Key('aboutMenuItem'),
           value: 'about',
@@ -75,15 +67,13 @@ class AppMenu extends AppPopupMenu {
   /// When an menu item is selected
   @override
   Future<void> onSelected(String value) async {
+    //
     switch (value) {
+      case 'runAsync':
+        _con.runAsync();
+        break;
       case 'inherited':
         _con.useInheritedWidget();
-        break;
-      case 'home':
-        _con.callHomeWidget();
-        break;
-      case 'newKey':
-        _con.recreateStateObjects();
         break;
       case 'darkMode':
         _con.darkMode();

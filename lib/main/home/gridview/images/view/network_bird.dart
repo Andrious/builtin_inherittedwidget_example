@@ -28,11 +28,4 @@ class _NetworkBirdState extends ImageAPIStateX<NetworkBird> {
             path: 'api/v2/random/animal/bird',
           ),
         );
-
-  /// Called when the application's UI dimensions change.
-  /// For example, when a phone is rotated.
-  @override
-  void didChangeMetrics() {
-    super.didChangeMetrics();
-  }
 }
