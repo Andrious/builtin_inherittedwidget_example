@@ -31,56 +31,52 @@ class _HomePageState extends StateX<HomePage> {
   late HomeController con;
 
   @override
-  Widget build(BuildContext context) {
-    var appCon = ExampleAppController();
-    appCon = con.rootState!.rootCon
-        as ExampleAppController; // Same object by the way
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title ?? 'Built-in InheritedWidget Demo.'),
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            bottom: Radius.circular(30),
+  Widget build(BuildContext context) => Scaffold(
+        appBar: AppBar(
+          title: Text(widget.title ?? 'Built-in InheritedWidget Demo.'),
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(
+              bottom: Radius.circular(30),
+            ),
           ),
+          actions: [AppMenu()],
         ),
-        actions: [AppMenu()],
-      ),
-      body: InheritBird(
-        child: InheritCat(
-          child: InheritDog(
-            child: InheritFox(
-              child: GridView.count(
-                crossAxisCount: 3,
-                children: con.children,
+        // Calls UniqueKey() inside its constructor.
+        body: InheritBird(
+          child: InheritCat(
+            child: InheritDog(
+              child: InheritFox(
+                child: GridView.count(
+                  crossAxisCount: 3,
+                  children: con.children,
+                ),
               ),
             ),
           ),
         ),
-      ),
-      persistentFooterButtons: [
-        Center(
-          child: OverflowBar(
-            children: [
-              TextButton(
-                onPressed: () => con.newDogs(),
-                child: const Text('New Dogs'),
-              ),
-              TextButton(
-                onPressed: () => con.newCats(),
-                child: const Text('New Cats'),
-              ),
-              TextButton(
-                onPressed: () => con.newFoxes(),
-                child: const Text('New Foxes'),
-              ),
-              TextButton(
-                onPressed: () => con.newBirds(),
-                child: const Text('New Birds'),
-              ),
-            ],
+        persistentFooterButtons: [
+          Center(
+            child: OverflowBar(
+              children: [
+                TextButton(
+                  onPressed: () => con.newDogs(),
+                  child: const Text('New Dogs'),
+                ),
+                TextButton(
+                  onPressed: () => con.newCats(),
+                  child: const Text('New Cats'),
+                ),
+                TextButton(
+                  onPressed: () => con.newFoxes(),
+                  child: const Text('New Foxes'),
+                ),
+                TextButton(
+                  onPressed: () => con.newBirds(),
+                  child: const Text('New Birds'),
+                ),
+              ],
+            ),
           ),
-        ),
-      ],
-    );
-  }
+        ],
+      );
 }

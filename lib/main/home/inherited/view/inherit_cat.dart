@@ -28,15 +28,17 @@ class _InheritCatState extends StateX<InheritCat> {
           useInherited: ExampleAppController().useInherited,
         );
 
-  /// Place a breakpoint on this build() function and see how things work.
+  /// Place a breakpoint and see how things work.
   @override
   // ignore: unnecessary_overrides
   Widget build(BuildContext context) => super.build(context);
 
+  /// Place a breakpoint and see how things work.
   @override
   // ignore: unnecessary_overrides
   Widget buildF(BuildContext context) => super.buildF(context);
 
+  /// Place a breakpoint and see how things work.
   @override
   Widget builder(context) => widget.child;
 }
